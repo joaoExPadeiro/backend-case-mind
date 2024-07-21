@@ -2,14 +2,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export class UsersServices {
-  async create(username: String, password: String): Promise<any> {
-    console.log(username, password);
+export class FinanceServices {
+  async create(description: string, tipo: string, valor: number): Promise<any> {
+    console.log(description, valor);
 
     try {
-      const data: any = { username, password };
+      const data: any = { description, tipo, valor };
 
-      const res = await prisma.users.create({
+      const res = await prisma.finance_data.create({
         data,
       });
 
@@ -24,13 +24,13 @@ export class UsersServices {
     }
   }
 
-  async update(id: number, username: string, password: string): Promise<any> {
-    console.log(username, password);
+  async update(id: number, description: string, tipo: string, valor: number): Promise<any> {
+    console.log(description, valor);
 
     try {
-      const data = { username, password };
+      const data = { description, tipo, valor };
 
-      const res = await prisma.users.update({
+      const res = await prisma.finance_data.update({
         where: {
           id,
         },
@@ -49,7 +49,7 @@ export class UsersServices {
   }
   async find(): Promise<any> {
     try {
-      const res = await prisma.users.findMany({
+      const res = await prisma.finance_data.findMany({
         where: {
           id: {
             gte: 1,
@@ -69,7 +69,7 @@ export class UsersServices {
   }
   async delete(id: number): Promise<any> {
     try {
-      const res = await prisma.users.delete({
+      const res = await prisma.finance_data.delete({
         where: {
           id,
         },
