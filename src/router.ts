@@ -1,14 +1,12 @@
 import { Request, Response, Router } from 'express' 
-// import { CustomerCreate } from './controller/CustomerCreate'
-// import { CustomerRepositoryInMemory } from './infra/repository/memory/CustomerRepositoryInMemory'
+import { Users } from './controller/users/userController';
 
 const router = Router()
 
-// const repository = new CustomerRepositoryInMemory()
-// const customerCreate = new CustomerCreate(repository)
+const UsersController = new Users()
 
-router.post('/customer', (request: Request, response: Response) => {
-    // customerCreate.execute(request, response)
+router.post('/users', (request: Request, response: Response) => {
+  UsersController.create(request, response)
 })
 
 router.get("/", (req: Request, res: Response) => {
