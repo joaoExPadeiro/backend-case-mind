@@ -13,17 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model User {
   id Int @id @default(autoincrement())
   username String
+  email String @unique
   password String
+	@@map("user")
+  transaction Transaction[]
 }
 
-model finance_data {
+model Transaction {
   id Int @id @default(autoincrement())
   description String
   valor Int
   tipo String @default("entrada")
+  user User @relation(fields: [userId], references: [id])
+  userId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+	@@map("transaction")
 }

@@ -11,6 +11,10 @@ router.post("/users", (request: Request, response: Response) => {
   UsersController.create(request, response);
 });
 
+router.post("/users/login", (request: Request, response: Response) => {
+  UsersController.login(request, response);
+});
+
 router.put("/users", (request: Request, response: Response) => {
   UsersController.update(request, response);
 });

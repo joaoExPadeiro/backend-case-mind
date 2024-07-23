@@ -8,9 +8,16 @@ export class Users {
     this.usersServices = new UsersServices();
   }
   async create(request: Request, response: Response) {
-    const { username, password } = request.body;
-    const user = await this.usersServices.create(username, password);
+    console.log(request.body)
+    const { username, password, email } = request.body;
+    const user = await this.usersServices.create(username, password, email);
     response.status(201).json({message: 'usuario criado', user});
+  }
+  async login(request: Request, response: Response) {
+    console.log(request.body)
+    const { email, password } = request.body;
+    const userLogin = await this.usersServices.login(email, password);
+    response.status(201).json({message: 'login efetuado com sucesso', userLogin});
   }
   async update(request: Request, response: Response) {
     const { id, username, password } = request.body;

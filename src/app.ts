@@ -1,5 +1,6 @@
 import express, { json, urlencoded } from "express";
 import { router } from "./router";
+import cors from "cors";
 
 export class App {
   private server: express.Application;
@@ -7,6 +8,7 @@ export class App {
   constructor() {
     this.server = express();
     this.server.use(json());
+    this.server.use(cors());
     this.server.use(urlencoded({ extended: true }));
     this.server.use(router);
   }

@@ -1,15 +1,21 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 export class UsersServices {
-  async create(username: String, password: String): Promise<any> {
+  async create(
+    username: string,
+    password: string,
+    email: string
+  ): Promise<any> {
     console.log(username, password);
 
     try {
-      const data: any = { username, password };
+      const passwordHash = await bcrypt.hash(password, 10);
+      const data: any = { username, password: passwordHash, email };
 
-      const res = await prisma.users.create({
+      const res = await prisma.user.create({
         data,
       });
 
@@ -24,13 +30,25 @@ export class UsersServices {
     }
   }
 
+  async login(email: string, password: string): Promise<any> {
+    try {
+      const user = await prisma.user.findFirstOrThrow({ where: { email } });
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!isValid) {
+        throw new Error("Credencias negadas");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async update(id: number, username: string, password: string): Promise<any> {
     console.log(username, password);
 
     try {
       const data = { username, password };
 
-      const res = await prisma.users.update({
+      const res = await prisma.user.update({
         where: {
           id,
         },
@@ -49,7 +67,7 @@ export class UsersServices {
   }
   async find(): Promise<any> {
     try {
-      const res = await prisma.users.findMany({
+      const res = await prisma.user.findMany({
         where: {
           id: {
             gte: 1,
@@ -69,7 +87,7 @@ export class UsersServices {
   }
   async delete(id: number): Promise<any> {
     try {
-      const res = await prisma.users.delete({
+      const res = await prisma.user.delete({
         where: {
           id,
         },

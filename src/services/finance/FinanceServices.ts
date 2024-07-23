@@ -9,7 +9,7 @@ export class FinanceServices {
     try {
       const data: any = { description, tipo, valor };
 
-      const res = await prisma.finance_data.create({
+      const res = await prisma.transaction.create({
         data,
       });
 
@@ -30,7 +30,7 @@ export class FinanceServices {
     try {
       const data = { description, tipo, valor };
 
-      const res = await prisma.finance_data.update({
+      const res = await prisma.transaction.update({
         where: {
           id,
         },
@@ -49,7 +49,7 @@ export class FinanceServices {
   }
   async find(): Promise<any> {
     try {
-      const res = await prisma.finance_data.findMany({
+      const res = await prisma.transaction.findMany({
         where: {
           id: {
             gte: 1,
@@ -69,7 +69,7 @@ export class FinanceServices {
   }
   async delete(id: number): Promise<any> {
     try {
-      const res = await prisma.finance_data.delete({
+      const res = await prisma.transaction.delete({
         where: {
           id,
         },
