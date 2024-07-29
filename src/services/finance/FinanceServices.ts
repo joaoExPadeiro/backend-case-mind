@@ -3,11 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export class FinanceServices {
-  async create(description: string, tipo: string, valor: number): Promise<any> {
+  async create( userId: number, description: string, tipo: string, valor: number): Promise<any> {
     console.log(description, valor);
 
     try {
-      const data: any = { description, tipo, valor };
+      const data: any = { userId, description, tipo, valor};
 
       const res = await prisma.transaction.create({
         data,
@@ -24,7 +24,12 @@ export class FinanceServices {
     }
   }
 
-  async update(id: number, description: string, tipo: string, valor: number): Promise<any> {
+  async update(
+    id: number,
+    description: string,
+    tipo: string,
+    valor: number
+  ): Promise<any> {
     console.log(description, valor);
 
     try {

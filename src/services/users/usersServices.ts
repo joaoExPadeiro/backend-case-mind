@@ -32,13 +32,18 @@ export class UsersServices {
 
   async login(email: string, password: string): Promise<any> {
     try {
-      const user = await prisma.user.findFirstOrThrow({ where: { email } });
+      const user = await prisma.user.findUnique({ where: { email } });
+      if (!user) {
+        return null
+      }
       const isValid = await bcrypt.compare(password, user.password);
       if (!isValid) {
-        throw new Error("Credencias negadas");
+        return null
       }
+      return user
+      console.log(user)
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 

@@ -8,8 +8,8 @@ export class Finance {
     this.financeServices = new FinanceServices();
   }
   async create(request: Request, response: Response) {
-    const { description, tipo, valor } = request.body;
-    const item = await this.financeServices.create(description, tipo, valor);
+    const { description, tipo, valor, userId } = request.body;
+    const item = await this.financeServices.create(userId, description, tipo, valor);
     response.status(201).json({message: 'item criado', item});
   }
   async update(request: Request, response: Response) {
@@ -19,7 +19,7 @@ export class Finance {
   }
   async find(response: Response) {
     const item = await this.financeServices.find();
-    response.status(201).json({ item });
+    response.status(200).json({ item });
   }
   async delete(request: Request, response: Response) {
     const { id } = request.params;
